@@ -157,11 +157,7 @@ async def crawl_day(day, sess, sem, file):
         await file.write(result)
         await file.flush()
 
-        active_tasks = len(
-            [task for task in asyncio.Task.all_tasks() if not task.done()]
-        )
-
-        logger.info('Tasks remain: %s' % (active_tasks,))
+    logger.info('Day parsed: %s' % (day,))
 
 
 async def crawl(start_day, last_day, out_file_path, timeout, concurrency):
