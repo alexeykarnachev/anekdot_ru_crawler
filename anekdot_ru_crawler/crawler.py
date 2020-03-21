@@ -150,19 +150,18 @@ def get_days_range(start_day, last_day):
         yield day
 
 
-async def crawl_day(day, sess, sem, out_file_path):
-    async with aiofiles.open(out_file_path, "w") as f:
-        async for result in iterate_on_day_prepared_results(
-                day=day, sess=sess, sem=sem
-        ):
-            await f.write(result)
-            await f.flush()
+async def crawl_day(day, sess, sem, file):
+    async for result in iterate_on_day_prepared_results(
+            day=day, sess=sess, sem=sem
+    ):
+        await file.write(result)
+        await file.flush()
 
-            active_tasks = len(
-                [task for task in asyncio.Task.all_tasks() if not task.done()]
-            )
+        active_tasks = len(
+            [task for task in asyncio.Task.all_tasks() if not task.done()]
+        )
 
-            logger.info('Tasks remain: %s' % (active_tasks,))
+        logger.info('Tasks remain: %s' % (active_tasks,))
 
 
 async def crawl(start_day, last_day, out_file_path, timeout, concurrency):
@@ -170,16 +169,16 @@ async def crawl(start_day, last_day, out_file_path, timeout, concurrency):
     timeout = aiohttp.ClientTimeout(total=timeout)
     sem = asyncio.BoundedSemaphore(concurrency)
     days = get_days_range(start_day, last_day)
-
-    async with aiohttp.ClientSession(
-            connector=connector, timeout=timeout, headers=_HEADERS
-    ) as sess:
-        tasks = [
-            asyncio.ensure_future(
-                crawl_day(day, sess, sem, out_file_path)
-            ) for day in days
-        ]
-        await asyncio.gather(*tasks)
+    async with aiofiles.open(out_file_path, "w") as file:
+        async with aiohttp.ClientSession(
+                connector=connector, timeout=timeout, headers=_HEADERS
+        ) as sess:
+            tasks = [
+                asyncio.ensure_future(
+                    crawl_day(day, sess, sem, file)
+                ) for day in days
+            ]
+            await asyncio.gather(*tasks)
 
 
 def get_today():
