@@ -71,6 +71,9 @@ def main():
     """Parse script arguments, configures logging and begins parsing."""
 
     args = parse_arguments()
+    args.output_file.parent.mkdir(
+        exist_ok=True, parents=True
+    )
     prepare_logging(args)
     run_loop(
         out_file_path=args.output_file,
