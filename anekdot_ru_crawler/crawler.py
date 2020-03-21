@@ -19,7 +19,7 @@ DAY_REGEX = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 DATE_FMT = '%Y-%m-%d'
 CATEGORIES = ('anekdot', 'story', 'aphorism', 'poems')
 
-_HEADERS = headers = {
+_HEADERS = {
     'user-agent':
         'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like '
         'Gecko) Ubuntu Chromium/80.0.3987.87 Chrome/80.0.3987.87 Safari/537.36',
@@ -44,7 +44,7 @@ def iterate_on_day_base_urls(day: str) -> Generator[str, None, None]:
     """
     if not DAY_REGEX.match(day):
         raise CrawlerError(
-            f'Incorrect day format: {day}. Mast match {DAY_REGEX}'
+            f'Incorrect day format: {day}. Must match {DAY_REGEX}'
         )
 
     for category in CATEGORIES:
