@@ -19,8 +19,6 @@ DAY_REGEX = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 DATE_FMT = '%Y-%m-%d'
 CATEGORIES = ('anekdot', 'story', 'aphorism', 'poems')
 
-UTTERANCE_SEP = ''
-
 _HEADERS = headers = {
     'user-agent':
         'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like '
