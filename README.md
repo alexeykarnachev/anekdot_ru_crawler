@@ -46,4 +46,4 @@ Each item (anekdot, story, poem or aphorism) covers 4 lines:
 - `[END_OF_DIALOG]` - end of item separator.
 
 Note that, all whitespace symbols are replaced with one space symbol. So, there are no
-any new line ot tabulation symbols in the data.
+any new line or tabulation symbols in the data.
