@@ -91,7 +91,11 @@ async def iterate_on_day_page_soups(day_url: str, sess, sem):
 
 
 def prepare_text(text: str) -> str:
-    text = re.sub(r'\s+', ' ', text)
+    text = re.sub(r'\t+', ' ', text)
+    text = re.sub(r' +', ' ', text)
+    text = re.sub(r'\n+', '\n', text)
+    text = re.sub(r'\n ', '\n', text)
+    text = re.sub(r'\t ', '\n', text)
     text = text.strip()
     return text
 
